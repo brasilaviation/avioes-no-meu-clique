@@ -7,49 +7,44 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-color: #2D3748;
-            color: #FFFFFF;
+            background-color: #464847;
+            color: #fff;
+            text-align: center;
             margin: 0;
             padding: 0;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
         }
         h1, h2 {
             color: #FFFFFF;
-            margin-bottom: 20px;
         }
         #menu {
-            width: 100%;
-            background-color: #1A202C;
-            padding: 10px 0;
-            display: flex;
-            justify-content: center;
+            background-color: #2D3748;
+            padding: 10px;
+            border-radius: 10px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
         }
         a {
-            margin: 0 10px;
+            display: inline-block;
+            margin: 10px;
             padding: 10px 20px;
             background-color: #008000;
             color: white;
             text-decoration: none;
-            border-radius: 5px;
+            border-radius: 10px;
         }
         a:hover {
-            background-color: #B38B6D;
+            background-color: #B38b6d;
         }
-        .container {
-            background: #1A202C;
+        #container {
+            display: none;
+            background: #2D3748;
             padding: 20px;
             border-radius: 10px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-            margin: 20px 0;
-            width: 90%;
-            max-width: 400px;
-            text-align: center;
+            width: 300px;
+            margin: 20px auto;
         }
         input, button {
-            width: calc(100% - 20px);
+            width: 90%;
             padding: 10px;
             margin: 10px 0;
             border-radius: 5px;
@@ -65,45 +60,31 @@
             cursor: pointer;
         }
         button:hover {
-            background-color: #B38B6D;
+            background-color: #B38b6d;
+        }
+        .error {
+            color: red;
+        }
+        .success {
+            color: green;
+        }
+        #listaRegistros li {
+            margin: 5px 0;
+            list-style: none;
+            background-color: #333;
+            padding: 10px;
+            border-radius: 5px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        #listaRegistros button {
+            background-color: #dc3545;
+            cursor: pointer;
         }
         #rodape {
             margin-top: 30px;
             font-size: 14px;
-            text-align: center;
-            width: 100%;
-            color: #B38B6D;
-        }
-        .hidden {
-            display: none;
-        }
-        .link {
-            margin-top: 10px;
-            color: #FFFFFF;
-            cursor: pointer;
-            text-decoration: underline;
-        }
-        #cookies {
-            background-color: #333333;
-            color: #FFFFFF;
-            padding: 10px;
-            position: fixed;
-            bottom: 0;
-            width: 100%;
-            text-align: center;
-            box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.2);
-        }
-        #cookies button {
-            margin-left: 10px;
-            background-color: #008000;
-            border: none;
-            color: white;
-            padding: 5px 10px;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-        #cookies button:hover {
-            background-color: #B38B6D;
         }
     </style>
 </head>
@@ -112,69 +93,31 @@
     <div id="menu">
         <a href="#" onclick="mostrarAba('pesquisa')">Buscar Registro</a>
         <a href="#" onclick="mostrarAba('lista')">Lista de Registros</a>
-        <a href="#" onclick="mostrarAba('termos')">Termos de Uso</a>
-        <a href="#" onclick="mostrarAba('privacidade')">Política de Privacidade</a>
-        <a href="#" onclick="mostrarAba('sobre')">Sobre Nós</a>
-    </div>
-
-    <!-- Aviso de Cookies -->
-    <div id="cookies">
-        Este site utiliza cookies para melhorar sua experiência. <button onclick="aceitarCookies()">Aceitar</button>
     </div>
 
     <!-- Aba de Pesquisa -->
-    <div id="pesquisa" class="container">
+    <div id="pesquisa" class="container" style="display: block;">
         <h1>Buscar Registro de Aeronave</h1>
-        <input type="text" id="inputRegistro" placeholder="Digite o registro (ex: PP-ABC)">
+        <input type="text" id="inputRegistro" placeholder="Digite o registro">
         <button onclick="buscarRegistro()">Buscar</button>
         <p id="mensagem" class="error"></p>
         <div id="adicionarRegistro" style="display:none;">
             <h2>Adicionar Registro</h2>
-            <input type="text" id="inputCompanhia" placeholder="Digite a companhia aérea (Ex: Azul)">
-            <input type="text" id="inputModelo" placeholder="Digite o modelo da aeronave (Ex: Boeing 737-800)">
+            <input type="text" id="inputCompanhia" placeholder="Digite a companhia aérea">
+            <input type="text" id="inputModelo" placeholder="Digite o modelo da aeronave">
             <button onclick="adicionarRegistro()">Adicionar</button>
         </div>
     </div>
 
     <!-- Aba de Lista -->
-    <div id="lista" class="container hidden">
+    <div id="lista" class="container" style="display: none;">
         <h2>Registros Salvos</h2>
         <ul id="listaRegistros"></ul>
-    </div>
-
-    <!-- Termos de Uso -->
-    <div id="termos" class="container hidden">
-        <h2>Termos de Uso</h2>
-        <p>Bem-vindo ao site da Brasil Aviation! Ao utilizar nosso serviço, você concorda com os seguintes termos:
-Uso Adequado: Este site deve ser utilizado apenas para fins pessoais e informativos relacionados à aviação. É proibido o uso para atividades ilícitas ou que possam prejudicar outros usuários.
-Responsabilidade: Não garantimos a precisão das informações fornecidas pelos usuários. Registros e dados adicionados são de responsabilidade de quem os insere.
-Propriedade Intelectual: Todo o conteúdo disponível no site é protegido por direitos autorais. A reprodução, cópia ou redistribuição é proibida sem permissão prévia.
-Alterações nos Termos: Podemos alterar os termos a qualquer momento. Recomendamos que revise regularmente esta página para se manter informado.</p>
-    </div>
-
-    <!-- Política de Privacidade -->
-    <div id="privacidade" class="container hidden">
-        <h2>Política de Privacidade</h2>
-        <p>Política de Privacidade da Brasil Aviation
-Sua privacidade é importante para nós. Esta política descreve como coletamos, usamos e protegemos suas informações:
-Coleta de Dados: Coletamos apenas as informações fornecidas diretamente por você, como registros de aeronaves, para melhorar a experiência no site.
-Uso de Dados: Utilizamos os dados fornecidos para exibição na lista de registros e aprimoramento do serviço. Não compartilhamos suas informações com terceiros.
-Cookies: Este site utiliza cookies para armazenar dados localmente em seu dispositivo, como seus registros salvos.
-Segurança: Adotamos medidas de segurança para proteger seus dados. Contudo, nenhum sistema é 100% seguro, e não podemos garantir a inviolabilidade das informações.</p>
-    </div>
-
-    <!-- Sobre Nós -->
-    <div id="sobre" class="container hidden">
-        <h2>Sobre Nós</h2>
-        <p>Sobre a Brasil Aviation
-Somos uma plataforma dedicada a entusiastas da aviação. Nosso objetivo é proporcionar um ambiente simples e eficiente para a consulta e registro de aeronaves. Valorizamos a paixão por voar e buscamos conectar pessoas interessadas na indústria aérea, seja para hobby, estudo ou curiosidade.
-A Brasil Aviation nasceu da paixão pela aviação e do desejo de criar uma comunidade ativa, onde cada registro é uma pequena parte da história do céu brasileiro.</p>
     </div>
 
     <!-- Rodapé -->
     <div id="rodape">
         <p>Todos os direitos reservados à BRASIL AVIATION</p>
-        <p>Siga-nos no Instagram: <a href="https://instagram.com/brasil_aviation_/" target="_blank">@brasil_aviation_</a></p>
     </div>
 
     <script>
@@ -191,12 +134,87 @@ A Brasil Aviation nasceu da paixão pela aviação e do desejo de criar uma comu
             }
         }
 
-        // Função para ocultar aviso de cookies
-        function aceitarCookies() {
-            document.getElementById('cookies').style.display = 'none';
+        // Função para buscar registro
+        function buscarRegistro() {
+            const input = document.getElementById('inputRegistro').value.toUpperCase();
+            const mensagem = document.getElementById('mensagem');
+            const registro = registros.find(r => r.registro === input);
+
+            if (!input) {
+                mensagem.textContent = 'Por favor, digite o registro.';
+                return;
+            }
+
+            if (registro) {
+                mensagem.innerHTML = `<span class='success'>Registro encontrado: ${registro.registro} - ${registro.modelo} - ${registro.companhia}</span>`;
+                document.getElementById('adicionarRegistro').style.display = 'none';
+            } else {
+                mensagem.innerHTML = `Não encontramos o registro ${input}. <br><button onclick="mostrarFormularioAdicao()">Adicionar Registro</button>`;
+                document.getElementById('adicionarRegistro').style.display = 'block';
+            }
         }
 
-        // Restante do código de busca, adição e remoção de registros...
+        // Função para mostrar o formulário de adição de registro
+        function mostrarFormularioAdicao() {
+            document.getElementById('adicionarRegistro').style.display = 'block';
+        }
+
+        // Função para adicionar registro
+        function adicionarRegistro() {
+            const registro = document.getElementById('inputRegistro').value.toUpperCase();
+            const companhia = document.getElementById('inputCompanhia').value;
+            const modelo = document.getElementById('inputModelo').value;
+
+            if (!registro || !companhia || !modelo) {
+                alert("Preencha todos os campos.");
+                return;
+            }
+
+            registros.push({ registro, companhia, modelo });
+            ordenarRegistros(); // Ordena antes de salvar
+            localStorage.setItem('registros', JSON.stringify(registros));
+            mostrarLista();
+            document.getElementById('mensagem').innerHTML = 'Registro adicionado com sucesso!';
+            document.getElementById('adicionarRegistro').style.display = 'none';
+        }
+
+        // Função para ordenar registros
+        function ordenarRegistros() {
+            registros.sort((a, b) => a.registro.localeCompare(b.registro));
+        }
+
+        // Função para mostrar a lista de registros
+        function mostrarLista() {
+            ordenarRegistros(); // Garante que esteja ordenado
+            const lista = document.getElementById('listaRegistros');
+            lista.innerHTML = ''; // Limpa a lista
+
+            registros.forEach(({ registro, companhia, modelo }) => {
+                const li = document.createElement('li');
+                li.innerHTML = `${registro} - ${modelo} - ${companhia}`;
+
+                // Botão de remover
+                const removerBtn = document.createElement('button');
+                removerBtn.textContent = 'Remover';
+                removerBtn.onclick = () => removerRegistro(registro);
+                li.appendChild(removerBtn);
+
+                lista.appendChild(li);
+            });
+        }
+
+        // Função para remover registro
+        function removerRegistro(registro) {
+            const index = registros.findIndex(r => r.registro === registro);
+            if (index > -1) {
+                registros.splice(index, 1);
+                localStorage.setItem('registros', JSON.stringify(registros));
+                mostrarLista();
+            }
+        }
+
+        // Carregar lista ao iniciar
+        document.addEventListener('DOMContentLoaded', mostrarLista);
     </script>
 </body>
 </html>
