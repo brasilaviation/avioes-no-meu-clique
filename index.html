@@ -145,30 +145,19 @@
     <!-- Termos de Uso -->
     <div id="termos" class="container hidden">
         <h2>Termos de Uso</h2>
-        <p>Bem-vindo ao site da Brasil Aviation! Ao utilizar nosso serviço, você concorda com os seguintes termos:
-Uso Adequado: Este site deve ser utilizado apenas para fins pessoais e informativos relacionados à aviação. É proibido o uso para atividades ilícitas ou que possam prejudicar outros usuários.
-Responsabilidade: Não garantimos a precisão das informações fornecidas pelos usuários. Registros e dados adicionados são de responsabilidade de quem os insere.
-Propriedade Intelectual: Todo o conteúdo disponível no site é protegido por direitos autorais. A reprodução, cópia ou redistribuição é proibida sem permissão prévia.
-Alterações nos Termos: Podemos alterar os termos a qualquer momento. Recomendamos que revise regularmente esta página para se manter informado.</p>
+        <p>Bem-vindo ao site da Brasil Aviation! Ao utilizar nosso serviço, você concorda com os seguintes termos: ...</p>
     </div>
 
     <!-- Política de Privacidade -->
     <div id="privacidade" class="container hidden">
         <h2>Política de Privacidade</h2>
-        <p>Política de Privacidade da Brasil Aviation
-Sua privacidade é importante para nós. Esta política descreve como coletamos, usamos e protegemos suas informações:
-Coleta de Dados: Coletamos apenas as informações fornecidas diretamente por você, como registros de aeronaves, para melhorar a experiência no site.
-Uso de Dados: Utilizamos os dados fornecidos para exibição na lista de registros e aprimoramento do serviço. Não compartilhamos suas informações com terceiros.
-Cookies: Este site utiliza cookies para armazenar dados localmente em seu dispositivo, como seus registros salvos.
-Segurança: Adotamos medidas de segurança para proteger seus dados. Contudo, nenhum sistema é 100% seguro, e não podemos garantir a inviolabilidade das informações.</p>
+        <p>Política de Privacidade da Brasil Aviation...</p>
     </div>
 
     <!-- Sobre Nós -->
     <div id="sobre" class="container hidden">
         <h2>Sobre Nós</h2>
-        <p>Sobre a Brasil Aviation
-Somos uma plataforma dedicada a entusiastas da aviação. Nosso objetivo é proporcionar um ambiente simples e eficiente para a consulta e registro de aeronaves. Valorizamos a paixão por voar e buscamos conectar pessoas interessadas na indústria aérea, seja para hobby, estudo ou curiosidade.
-A Brasil Aviation nasceu da paixão pela aviação e do desejo de criar uma comunidade ativa, onde cada registro é uma pequena parte da história do céu brasileiro.</p>
+        <p>Sobre a Brasil Aviation...</p>
     </div>
 
     <!-- Rodapé -->
@@ -196,7 +185,54 @@ A Brasil Aviation nasceu da paixão pela aviação e do desejo de criar uma comu
             document.getElementById('cookies').style.display = 'none';
         }
 
-        // Restante do código de busca, adição e remoção de registros...
+        // Função para buscar o registro
+        function buscarRegistro() {
+            const registro = document.getElementById('inputRegistro').value.trim();
+            const mensagem = document.getElementById('mensagem');
+
+            if (registro === '') {
+                mensagem.textContent = 'Por favor, digite um registro válido.';
+                return;
+            }
+
+            const encontrado = registros.find(item => item.registro === registro);
+
+            if (encontrado) {
+                mensagem.textContent = `Registro encontrado: ${encontrado.registro} - ${encontrado.companhia} - ${encontrado.modelo}`;
+            } else {
+                mensagem.textContent = 'Registro não encontrado. Deseja adicionar?';
+                document.getElementById('adicionarRegistro').style.display = 'block';
+            }
+        }
+
+        // Função para adicionar um registro
+        function adicionarRegistro() {
+            const registro = document.getElementById('inputRegistro').value.trim();
+            const companhia = document.getElementById('inputCompanhia').value.trim();
+            const modelo = document.getElementById('inputModelo').value.trim();
+
+            if (registro === '' || companhia === '' || modelo === '') {
+                alert('Preencha todos os campos para adicionar o registro.');
+                return;
+            }
+
+            registros.push({ registro, companhia, modelo });
+            localStorage.setItem('registros', JSON.stringify(registros));
+            alert('Registro adicionado com sucesso!');
+            mostrarAba('lista');
+            mostrarLista();
+        }
+
+        // Função para mostrar a lista de registros
+        function mostrarLista() {
+            const listaRegistros = document.getElementById('listaRegistros');
+            listaRegistros.innerHTML = '';
+            registros.forEach(item => {
+                const li = document.createElement('li');
+                li.textContent = `${item.registro} - ${item.companhia} - ${item.modelo}`;
+                listaRegistros.appendChild(li);
+            });
+        }
     </script>
 </body>
 </html>
