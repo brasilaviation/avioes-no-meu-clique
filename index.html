@@ -3,119 +3,115 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aeronaves já fotografadas</title>
+    <title>Buscar Registro de Aeronave</title>
     <style>
         body {
             font-family: Arial, sans-serif;
             background-color: #2D3748;
-            color: #FFFFFF;
+            color: #fff;
             margin: 0;
             padding: 0;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
         }
+
         h1, h2 {
-            color: #FFFFFF;
-            margin-bottom: 20px;
+            text-align: center;
+            color: #fff;
         }
+
         #menu {
-            width: 100%;
-            background-color: #1A202C;
-            padding: 10px 0;
-            display: flex;
-            justify-content: center;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            background-color: #333;
+            padding: 10px;
+            text-align: center;
         }
-        a {
-            margin: 0 10px;
-            padding: 10px 20px;
-            background-color: #008000;
+
+        #menu a {
             color: white;
             text-decoration: none;
+            margin: 10px;
+            font-weight: bold;
+            padding: 10px 20px;
+            background-color: #008000;
             border-radius: 5px;
         }
-        a:hover {
-            background-color: #B38B6D;
+
+        #menu a:hover {
+            background-color: #006400;
         }
+
         .container {
-            background: #1A202C;
+            display: none;
+            margin: 20px auto;
+            background: #3A3F44;
             padding: 20px;
             border-radius: 10px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-            margin: 20px 0;
             width: 90%;
-            max-width: 400px;
-            text-align: center;
+            max-width: 500px;
         }
+
         input, button {
-            width: 100%;
+            display: block;
+            width: calc(100% - 20px);
+            margin: 10px auto;
             padding: 10px;
-            margin: 10px 0;
             border-radius: 5px;
             border: none;
-            display: block;
         }
+
         input {
             border: 1px solid #ccc;
         }
+
         button {
             background-color: #008000;
             color: white;
             cursor: pointer;
         }
+
         button:hover {
-            background-color: #B38B6D;
+            background-color: #006400;
         }
-        .error {
-            color: red;
-        }
+
         .success {
             color: green;
         }
-        #listaRegistros {
-            margin: 0;
-            padding: 0;
-            list-style: none;
+
+        .error {
+            color: red;
         }
-        #listaRegistros li {
-            margin: 5px 0;
+
+        ul {
             list-style: none;
-            background-color: #333;
+            padding: 0;
+        }
+
+        li {
+            background-color: #555;
             padding: 10px;
+            margin: 5px 0;
             border-radius: 5px;
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
-        #listaRegistros button {
+
+        li button {
             background-color: #dc3545;
             color: white;
-            border: none;
             padding: 5px 10px;
+            border: none;
             border-radius: 5px;
             cursor: pointer;
         }
-        #listaRegistros button:hover {
-            background-color: #b02a37;
+
+        li button:hover {
+            background-color: #c82333;
         }
+
         #rodape {
-            margin-top: 30px;
-            font-size: 14px;
             text-align: center;
-            width: 100%;
-            color: #B38B6D;
-        }
-        .terms-container {
-            max-width: 800px;
             margin-top: 20px;
-        }
-        .terms-container h3 {
-            color: #008000;
-        }
-        .terms-container p {
-            color: #FFFFFF;
-            margin-bottom: 10px;
+            color: #aaa;
         }
     </style>
 </head>
@@ -123,96 +119,29 @@
     <!-- Menu -->
     <div id="menu">
         <a href="#" onclick="mostrarAba('pesquisa')">Buscar Registro</a>
-        <a href="#" onclick="mostrarAba('lista')">Lista de Registros</a>
-        <a href="#" onclick="mostrarAba('termos')">Termos de Uso</a>
-        <a href="#" onclick="mostrarAba('politica')">Política de Privacidade</a>
-        <a href="#" onclick="mostrarAba('sobre')">Sobre Nós</a>
+        <a href="#" onclick="mostrarAba('lista')">Registros Salvos</a>
     </div>
 
     <!-- Aba de Pesquisa -->
-    <div id="pesquisa" class="container">
+    <div id="pesquisa" class="container" style="display: block;">
         <h1>Buscar Registro de Aeronave</h1>
-        <input type="text" id="inputRegistro" placeholder="Digite o registro (ex: PP-ABC)">
+        <input type="text" id="inputRegistro" placeholder="Digite o registro (ex: PR-GXP)">
         <button onclick="buscarRegistro()">Buscar</button>
-        <p id="mensagem" class="error"></p>
-        <div id="adicionarRegistro" style="display:none;">
+        <p id="mensagem"></p>
+
+        <!-- Formulário para adicionar registro -->
+        <div id="formularioAdicao" style="display: none;">
             <h2>Adicionar Registro</h2>
-            <input type="text" id="inputCompanhia" placeholder="Digite a companhia aérea (Ex: Azul)">
-            <input type="text" id="inputModelo" placeholder="Digite o modelo da aeronave (Ex: Boeing 737-800)">
-            <button onclick="adicionarRegistro()">Adicionar</button>
+            <input type="text" id="inputCompanhia" placeholder="Companhia Aérea">
+            <input type="text" id="inputModelo" placeholder="Modelo da Aeronave">
+            <button onclick="adicionarRegistro()">Salvar Registro</button>
         </div>
     </div>
 
     <!-- Aba de Lista -->
-    <div id="lista" class="container" style="display: none;">
+    <div id="lista" class="container">
         <h2>Registros Salvos</h2>
         <ul id="listaRegistros"></ul>
-    </div>
-
-    <!-- Aba de Termos de Uso -->
-    <div id="termos" class="terms-container" style="display: none;">
-        <h3>Termos de Uso</h3>
-        <p>Ao acessar e utilizar nossa plataforma, você concorda com os seguintes Termos de Uso. Caso não concorde com qualquer uma das condições abaixo, pedimos que não utilize nossos serviços.
-
-Nosso site é uma plataforma dedicada à busca, cadastro e gerenciamento de registros de aeronaves, com a intenção de fornecer aos usuários informações confiáveis e de fácil acesso sobre o mundo da aviação. Os termos aqui descritos se aplicam a todos os usuários que acessam, navegam ou interagem com nosso conteúdo.
-
-1. Uso do Serviço
-O serviço disponibilizado por nossa plataforma deve ser utilizado exclusivamente para fins pessoais e não comerciais. O conteúdo presente no site, incluindo textos, imagens e informações sobre aeronaves, é protegido por direitos autorais e não pode ser copiado ou redistribuído sem permissão expressa.
-
-2. Cadastro e Informações Pessoais
-Para utilizar certas funcionalidades do nosso site, como o cadastro de registros de aeronaves, você pode ser solicitado a fornecer informações pessoais. É sua responsabilidade fornecer informações precisas e completas, e mantê-las atualizadas. O uso indevido de qualquer funcionalidade, como inserir dados falsos ou infringir direitos de propriedade intelectual de terceiros, resultará em penalidades, incluindo a suspensão ou exclusão do seu acesso ao serviço.
-
-3. Responsabilidade pelo Conteúdo
-Os usuários são os únicos responsáveis pelo conteúdo que inserem no site, como registros de aeronaves e suas respectivas informações. O conteúdo enviado deve estar de acordo com as leis vigentes, respeitar os direitos de terceiros e não violar qualquer norma de conduta moral e ética. Caso nosso site seja alertado sobre conteúdos prejudiciais ou ilegais, nos reservamos o direito de removê-los sem aviso prévio.
-
-4. Limitação de Responsabilidade
-Embora nos empenhemos para garantir que as informações disponibilizadas sejam precisas, não podemos garantir a total exatidão ou a ausência de erros. Nosso site não se responsabiliza por danos diretos ou indiretos que possam ocorrer devido ao uso de suas funcionalidades ou da confiança nas informações ali presentes.
-
-5. Modificação dos Termos de Uso
-Podemos alterar os Termos de Uso a qualquer momento, sem aviso prévio, com o intuito de refletir mudanças nas nossas práticas ou na legislação vigente. Recomendamos que os usuários revisem regularmente essa seção para estar cientes de qualquer alteração.
-
-</p>
-    </div>
-
-    <!-- Aba de Política de Privacidade -->
-    <div id="politica" class="terms-container" style="display: none;">
-        <h3>Política de Privacidade</h3>
-        <p>A sua privacidade é muito importante para nós. Esta Política de Privacidade descreve como coletamos, utilizamos e protegemos as informações pessoais dos usuários que acessam nosso site. Ao utilizar nossos serviços, você concorda com as práticas descritas nesta política.
-
-1. Coleta de Informações
-Coletamos informações pessoais que você fornece ao se cadastrar no nosso site, como nome, e-mail, e informações sobre registros de aeronaves. Além disso, podemos coletar informações não pessoais, como dados de navegação (por exemplo, endereço IP, tipo de dispositivo, localização, entre outros) através de cookies, para melhorar a sua experiência de navegação.
-
-2. Uso das Informações
-As informações coletadas são utilizadas para fornecer e melhorar nossos serviços, personalizar a sua experiência, responder a perguntas ou solicitações, e enviar atualizações ou notificações relacionadas à plataforma. Não compartilhamos suas informações pessoais com terceiros, exceto quando necessário para cumprir com a lei ou proteger nossos direitos legais.
-
-3. Armazenamento de Dados
-Seus dados são armazenados de forma segura em nossos servidores e são acessados apenas por pessoas autorizadas. No entanto, nenhuma transmissão de dados pela internet é completamente segura, e não podemos garantir a segurança absoluta das informações durante o processo de transmissão.
-
-4. Cookies e Tecnologias Semelhantes
-Utilizamos cookies para melhorar a experiência do usuário. Um cookie é um pequeno arquivo de dados armazenado no seu dispositivo para lembrar suas preferências e personalizar o conteúdo. Você pode optar por desativar os cookies nas configurações do seu navegador, mas isso pode afetar algumas funcionalidades do site.
-
-5. Compartilhamento de Dados
-Não vendemos, alugamos ou compartilhamos suas informações pessoais com empresas de terceiros para fins promocionais. No entanto, podemos compartilhar informações com provedores de serviços terceiros que nos auxiliam a operar o site ou realizar atividades relacionadas à plataforma, sempre sob um contrato de confidencialidade.
-
-6. Seus Direitos
-Você tem o direito de acessar, corrigir ou excluir suas informações pessoais a qualquer momento, bem como limitar o uso das mesmas. Caso queira exercer esses direitos, entre em contato conosco através do e-mail fornecido no site.
-
-7. Alterações na Política de Privacidade
-A Política de Privacidade pode ser atualizada periodicamente para refletir mudanças em nossas práticas ou requisitos legais. Recomendamos que você a consulte regularmente para manter-se informado.</p>
-    </div>
-
-    <!-- Aba Sobre Nós -->
-    <div id="sobre" class="terms-container" style="display: none;">
-        <h3>Sobre Nós</h3>
-        <p>A nossa plataforma foi criada com a missão de fornecer aos amantes da aviação uma maneira fácil e acessível de consultar, registrar e organizar informações sobre aeronaves. Desde nossa fundação, buscamos proporcionar um ambiente interativo e informativo, onde os usuários possam compartilhar seu entusiasmo pela aviação e contribuir com registros de aeronaves de diversas partes do mundo.
-
-Nossa equipe é composta por profissionais apaixonados por aviação, comprometidos com a qualidade das informações e a experiência do usuário. Acreditamos que a aviação é um campo fascinante, e nosso objetivo é criar um espaço que facilite o acesso a informações precisas e confiáveis sobre aeronaves.
-
-Embora nossa plataforma seja voltada para entusiastas da aviação, também trabalhamos para manter o site acessível e seguro para todos os usuários, independentemente do nível de conhecimento. Valorizamos a transparência e a honestidade, por isso, nossos Termos de Uso e Política de Privacidade são projetados para garantir que todos os aspectos do nosso serviço estejam claros e protegidos.
-
-Nosso compromisso com a qualidade se reflete na atenção que damos a cada detalhe da plataforma, desde a interface do usuário até a precisão das informações que compartilhamos. Queremos que você se sinta confortável e seguro ao usar nossos serviços, e estamos sempre à disposição para responder a qualquer dúvida ou sugerir melhorias.
-
-Agradecemos por fazer parte da nossa comunidade e esperamos que nossa plataforma seja uma ferramenta útil para sua jornada no mundo da aviação.</p>
     </div>
 
     <!-- Rodapé -->
@@ -220,101 +149,86 @@ Agradecemos por fazer parte da nossa comunidade e esperamos que nossa plataforma
         <p>Todos os direitos reservados à BRASIL AVIATION</p>
     </div>
 
+    <!-- JavaScript -->
     <script>
         const registros = JSON.parse(localStorage.getItem('registros')) || [];
 
         // Função para alternar entre abas
         function mostrarAba(aba) {
-            document.querySelectorAll('.container, .terms-container').forEach(div => {
-                div.style.display = div.id === aba ? 'block' : 'none';
+            document.querySelectorAll('.container').forEach(div => {
+                div.style.display = 'none';
             });
-
-            if (aba === 'lista') {
-                mostrarLista();
-            }
+            document.getElementById(aba).style.display = 'block';
+            if (aba === 'lista') mostrarLista();
         }
 
-        // Função para buscar registro
+        // Buscar registro
         function buscarRegistro() {
             const input = document.getElementById('inputRegistro').value.toUpperCase();
             const mensagem = document.getElementById('mensagem');
-            const registro = registros.find(r => r.registro === input);
+            const formulario = document.getElementById('formularioAdicao');
 
             if (!input) {
                 mensagem.textContent = 'Por favor, digite o registro.';
+                mensagem.className = 'error';
                 return;
             }
 
+            const registro = registros.find(r => r.registro === input);
+
             if (registro) {
-                mensagem.innerHTML = `<span class='success'>Registro encontrado: ${registro.registro} - ${registro.modelo} - ${registro.companhia}</span>`;
-                document.getElementById('adicionarRegistro').style.display = 'none';
+                mensagem.innerHTML = `<span class="success">Registro encontrado: ${registro.registro}, ${registro.modelo}, ${registro.companhia}.</span>`;
+                formulario.style.display = 'none';
             } else {
-                mensagem.innerHTML = `Não encontramos o registro ${input}. <br><button onclick="mostrarFormularioAdicao()">Adicionar Registro</button>`;
-                document.getElementById('adicionarRegistro').style.display = 'block';
+                mensagem.innerHTML = `<span class="error">Registro não encontrado. Adicione abaixo.</span>`;
+                formulario.style.display = 'block';
             }
         }
 
-        // Função para mostrar o formulário de adição de registro
-        function mostrarFormularioAdicao() {
-            document.getElementById('adicionarRegistro').style.display = 'block';
-        }
-
-        // Função para adicionar registro
+        // Adicionar registro
         function adicionarRegistro() {
             const registro = document.getElementById('inputRegistro').value.toUpperCase();
             const companhia = document.getElementById('inputCompanhia').value;
             const modelo = document.getElementById('inputModelo').value;
 
             if (!registro || !companhia || !modelo) {
-                alert("Preencha todos os campos.");
+                alert('Por favor, preencha todos os campos.');
                 return;
             }
 
             registros.push({ registro, companhia, modelo });
-            ordenarRegistros(); // Ordena antes de salvar
+            localStorage.setItem('registros', JSON.stringify(registros));
+            alert('Registro salvo com sucesso!');
+            document.getElementById('mensagem').textContent = '';
+            document.getElementById('formularioAdicao').style.display = 'none';
+        }
+
+        // Mostrar lista de registros salvos
+        function mostrarLista() {
+            const lista = document.getElementById('listaRegistros');
+            lista.innerHTML = '';
+
+            registros
+                .sort((a, b) => a.registro.localeCompare(b.registro))
+                .forEach(({ registro, companhia, modelo }, index) => {
+                    const li = document.createElement('li');
+                    li.innerHTML = `${registro} - ${modelo} - ${companhia} 
+                        <button onclick="removerRegistro(${index})">Remover</button>`;
+                    lista.appendChild(li);
+                });
+        }
+
+        // Remover registro
+        function removerRegistro(index) {
+            registros.splice(index, 1);
             localStorage.setItem('registros', JSON.stringify(registros));
             mostrarLista();
-            document.getElementById('mensagem').innerHTML = 'Registro adicionado com sucesso!';
-            document.getElementById('adicionarRegistro').style.display = 'none';
         }
 
-        // Função para ordenar registros
-        function ordenarRegistros() {
-            registros.sort((a, b) => a.registro.localeCompare(b.registro));
-        }
-
-        // Função para mostrar a lista de registros
-        function mostrarLista() {
-            ordenarRegistros(); // Garante que esteja ordenado
-            const lista = document.getElementById('listaRegistros');
-            lista.innerHTML = ''; // Limpa a lista
-
-            registros.forEach(({ registro, companhia, modelo }) => {
-                const li = document.createElement('li');
-                li.innerHTML = `${registro} - ${modelo} - ${companhia}`;
-
-                // Botão de remover
-                const removerBtn = document.createElement('button');
-                removerBtn.textContent = 'Remover';
-                removerBtn.onclick = () => removerRegistro(registro);
-                li.appendChild(removerBtn);
-
-                lista.appendChild(li);
-            });
-        }
-
-        // Função para remover registro
-        function removerRegistro(registro) {
-            const index = registros.findIndex(r => r.registro === registro);
-            if (index > -1) {
-                registros.splice(index, 1);
-                localStorage.setItem('registros', JSON.stringify(registros));
-                mostrarLista();
-            }
-        }
-
-        // Carregar lista ao iniciar
-        document.addEventListener('DOMContentLoaded', mostrarLista);
+        // Inicializar lista
+        document.addEventListener('DOMContentLoaded', () => {
+            mostrarLista();
+        });
     </script>
 </body>
 </html>
