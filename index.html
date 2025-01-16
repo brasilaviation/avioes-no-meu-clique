@@ -120,6 +120,7 @@
     <div id="menu">
         <a href="#" onclick="mostrarAba('pesquisa')">Buscar Registro</a>
         <a href="#" onclick="mostrarAba('lista')">Registros Salvos</a>
+        <a href="#" onclick="mostrarAba('estatisticas')">Estatísticas</a> <!-- Nova aba de estatísticas -->
     </div>
 
     <!-- Aba de Pesquisa -->
@@ -144,6 +145,12 @@
         <ul id="listaRegistros"></ul>
     </div>
 
+    <!-- Nova Aba de Estatísticas -->
+    <div id="estatisticas" class="container">
+        <h2>Estatísticas de Registros</h2>
+        <ul id="listaEstatisticas"></ul>
+    </div>
+
     <!-- Rodapé -->
     <div id="rodape">
         <p>Todos os direitos reservados à BRASIL AVIATION</p>
@@ -160,6 +167,7 @@
             });
             document.getElementById(aba).style.display = 'block';
             if (aba === 'lista') mostrarLista();
+            if (aba === 'estatisticas') mostrarEstatisticas();  // Adicionando funcionalidade de exibir estatísticas
         }
 
         // Buscar registro
@@ -216,6 +224,33 @@
                         <button onclick="removerRegistro(${index})">Remover</button>`;
                     lista.appendChild(li);
                 });
+        }
+
+        // Mostrar estatísticas
+        function mostrarEstatisticas() {
+            const listaEstatisticas = document.getElementById('listaEstatisticas');
+            listaEstatisticas.innerHTML = '';
+
+            const companhias = registros.reduce((acc, { companhia }) => {
+                acc[companhia] = (acc[companhia] || 0) + 1;
+                return acc;
+            }, {});
+
+            const modelos = registros.reduce((acc, { modelo }) => {
+                acc[modelo] = (acc[modelo] || 0) + 1;
+                return acc;
+            }, {});
+
+            listaEstatisticas.innerHTML = `
+                <h3>Companhias Aéreas</h3>
+                <ul>
+                    ${Object.entries(companhias).map(([companhia, count]) => `<li>${companhia}: ${count} registro(s)</li>`).join('')}
+                </ul>
+                <h3>Modelos de Aeronaves</h3>
+                <ul>
+                    ${Object.entries(modelos).map(([modelo, count]) => `<li>${modelo}: ${count} registro(s)</li>`).join('')}
+                </ul>
+            `;
         }
 
         // Remover registro
