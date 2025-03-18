@@ -120,7 +120,7 @@
     <div id="menu">
         <a href="#" onclick="mostrarAba('pesquisa')">Buscar Registro</a>
         <a href="#" onclick="mostrarAba('lista')">Registros Salvos</a>
-        <a href="#" onclick="mostrarAba('estatisticas')">Estatísticas</a> <!-- Nova aba de estatísticas -->
+        <a href="#" onclick="mostrarAba('estatisticas')">Estatísticas</a>
     </div>
 
     <!-- Aba de Pesquisa -->
@@ -145,7 +145,7 @@
         <ul id="listaRegistros"></ul>
     </div>
 
-    <!-- Nova Aba de Estatísticas -->
+    <!-- Aba de Estatísticas -->
     <div id="estatisticas" class="container">
         <h2>Estatísticas de Registros</h2>
         <ul id="listaEstatisticas"></ul>
@@ -158,19 +158,17 @@
 
     <!-- JavaScript -->
     <script>
-        const registros = JSON.parse(localStorage.getItem('registros')) || [];
+        let registros = JSON.parse(localStorage.getItem('registros')) || [];
 
-        // Função para alternar entre abas
         function mostrarAba(aba) {
             document.querySelectorAll('.container').forEach(div => {
                 div.style.display = 'none';
             });
             document.getElementById(aba).style.display = 'block';
             if (aba === 'lista') mostrarLista();
-            if (aba === 'estatisticas') mostrarEstatisticas();  // Adicionando funcionalidade de exibir estatísticas
+            if (aba === 'estatisticas') mostrarEstatisticas();
         }
 
-        // Buscar registro
         function buscarRegistro() {
             const input = document.getElementById('inputRegistro').value.toUpperCase();
             const mensagem = document.getElementById('mensagem');
@@ -193,7 +191,6 @@
             }
         }
 
-        // Adicionar registro
         function adicionarRegistro() {
             const registro = document.getElementById('inputRegistro').value.toUpperCase();
             const companhia = document.getElementById('inputCompanhia').value;
@@ -211,22 +208,18 @@
             document.getElementById('formularioAdicao').style.display = 'none';
         }
 
-        // Mostrar lista de registros salvos
         function mostrarLista() {
             const lista = document.getElementById('listaRegistros');
             lista.innerHTML = '';
 
-            registros
-                .sort((a, b) => a.registro.localeCompare(b.registro))
-                .forEach(({ registro, companhia, modelo }, index) => {
-                    const li = document.createElement('li');
-                    li.innerHTML = `${registro} - ${modelo} - ${companhia} 
-                        <button onclick="removerRegistro(${index})">Remover</button>`;
-                    lista.appendChild(li);
-                });
+            registros.forEach(({ registro, companhia, modelo }, index) => {
+                const li = document.createElement('li');
+                li.innerHTML = `${registro} - ${modelo} - ${companhia} 
+                    <button onclick="removerRegistro(${index})">Remover</button>`;
+                lista.appendChild(li);
+            });
         }
 
-        // Mostrar estatísticas
         function mostrarEstatisticas() {
             const listaEstatisticas = document.getElementById('listaEstatisticas');
             listaEstatisticas.innerHTML = '';
@@ -243,27 +236,17 @@
 
             listaEstatisticas.innerHTML = `
                 <h3>Companhias Aéreas</h3>
-                <ul>
-                    ${Object.entries(companhias).map(([companhia, count]) => `<li>${companhia}: ${count} registro(s)</li>`).join('')}
-                </ul>
+                <ul>${Object.entries(companhias).map(([companhia, count]) => `<li>${companhia}: ${count}</li>`).join('')}</ul>
                 <h3>Modelos de Aeronaves</h3>
-                <ul>
-                    ${Object.entries(modelos).map(([modelo, count]) => `<li>${modelo}: ${count} registro(s)</li>`).join('')}
-                </ul>
+                <ul>${Object.entries(modelos).map(([modelo, count]) => `<li>${modelo}: ${count}</li>`).join('')}</ul>
             `;
         }
 
-        // Remover registro
         function removerRegistro(index) {
             registros.splice(index, 1);
             localStorage.setItem('registros', JSON.stringify(registros));
             mostrarLista();
         }
-
-        // Inicializar lista
-        document.addEventListener('DOMContentLoaded', () => {
-            mostrarLista();
-        });
     </script>
 </body>
 </html>
