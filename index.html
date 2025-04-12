@@ -212,7 +212,11 @@
             const lista = document.getElementById('listaRegistros');
             lista.innerHTML = '';
 
-            registros.forEach(({ registro, companhia, modelo }, index) => {
+            // Ordena os registros alfabeticamente pelo campo 'registro'
+            const registrosOrdenados = [...registros].sort((a, b) => a.registro.localeCompare(b.registro));
+
+            registrosOrdenados.forEach(({ registro, companhia, modelo }) => {
+                const index = registros.findIndex(r => r.registro === registro);
                 const li = document.createElement('li');
                 li.innerHTML = `${registro} - ${modelo} - ${companhia} 
                     <button onclick="removerRegistro(${index})">Remover</button>`;
