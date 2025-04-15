@@ -116,21 +116,18 @@
     </style>
 </head>
 <body>
-    <!-- Menu -->
     <div id="menu">
         <a href="#" onclick="mostrarAba('pesquisa')">Buscar Registro</a>
         <a href="#" onclick="mostrarAba('lista')">Registros Salvos</a>
         <a href="#" onclick="mostrarAba('estatisticas')">Estatísticas</a>
     </div>
 
-    <!-- Aba de Pesquisa -->
     <div id="pesquisa" class="container" style="display: block;">
         <h1>Buscar Registro de Aeronave</h1>
         <input type="text" id="inputRegistro" placeholder="Digite o registro (ex: PR-GXP)">
         <button onclick="buscarRegistro()">Buscar</button>
         <p id="mensagem"></p>
 
-        <!-- Formulário para adicionar registro -->
         <div id="formularioAdicao" style="display: none;">
             <h2>Adicionar Registro</h2>
             <input type="text" id="inputCompanhia" placeholder="Companhia Aérea">
@@ -139,24 +136,20 @@
         </div>
     </div>
 
-    <!-- Aba de Lista -->
     <div id="lista" class="container">
         <h2>Registros Salvos</h2>
         <ul id="listaRegistros"></ul>
     </div>
 
-    <!-- Aba de Estatísticas -->
     <div id="estatisticas" class="container">
         <h2>Estatísticas de Registros</h2>
         <ul id="listaEstatisticas"></ul>
     </div>
 
-    <!-- Rodapé -->
     <div id="rodape">
         <p>Todos os direitos reservados à BRASIL AVIATION</p>
     </div>
 
-    <!-- JavaScript -->
     <script>
         let registros = JSON.parse(localStorage.getItem('registros')) || [];
 
@@ -169,8 +162,22 @@
             if (aba === 'estatisticas') mostrarEstatisticas();
         }
 
+        function padronizarRegistro(registro) {
+            registro = registro.toUpperCase().replace(/-/g, '');
+            if (registro.startsWith('N')) {
+                return registro; // Matrículas americanas não usam traço
+            }
+            if (registro.length > 2) {
+                return registro.slice(0, 2) + '-' + registro.slice(2);
+            }
+            return registro;
+        }
+
         function buscarRegistro() {
-            const input = document.getElementById('inputRegistro').value.toUpperCase();
+            const inputBruto = document.getElementById('inputRegistro').value;
+            const input = padronizarRegistro(inputBruto);
+            document.getElementById('inputRegistro').value = input;
+
             const mensagem = document.getElementById('mensagem');
             const formulario = document.getElementById('formularioAdicao');
 
@@ -192,7 +199,8 @@
         }
 
         function adicionarRegistro() {
-            const registro = document.getElementById('inputRegistro').value.toUpperCase();
+            const inputBruto = document.getElementById('inputRegistro').value;
+            const registro = padronizarRegistro(inputBruto);
             const companhia = document.getElementById('inputCompanhia').value;
             const modelo = document.getElementById('inputModelo').value;
 
@@ -212,7 +220,6 @@
             const lista = document.getElementById('listaRegistros');
             lista.innerHTML = '';
 
-            // Ordena os registros alfabeticamente pelo campo 'registro'
             const registrosOrdenados = [...registros].sort((a, b) => a.registro.localeCompare(b.registro));
 
             registrosOrdenados.forEach(({ registro, companhia, modelo }) => {
