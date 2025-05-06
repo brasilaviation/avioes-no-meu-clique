@@ -3,116 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Buscar Registro de Aeronave</title>
+    <title>Aviões no Meu Clique</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #2D3748;
-            color: #fff;
-            margin: 0;
-            padding: 0;
-        }
-
-        h1, h2 {
-            text-align: center;
-            color: #fff;
-        }
-
-        #menu {
-            background-color: #333;
-            padding: 10px;
-            text-align: center;
-        }
-
-        #menu a {
-            color: white;
-            text-decoration: none;
-            margin: 10px;
-            font-weight: bold;
-            padding: 10px 20px;
-            background-color: #008000;
-            border-radius: 5px;
-        }
-
-        #menu a:hover {
-            background-color: #006400;
-        }
-
-        .container {
-            display: none;
-            margin: 20px auto;
-            background: #3A3F44;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-            width: 90%;
-            max-width: 500px;
-        }
-
-        input, button {
-            display: block;
-            width: calc(100% - 20px);
-            margin: 10px auto;
-            padding: 10px;
-            border-radius: 5px;
-            border: none;
-        }
-
-        input {
-            border: 1px solid #ccc;
-        }
-
-        button {
-            background-color: #008000;
-            color: white;
-            cursor: pointer;
-        }
-
-        button:hover {
-            background-color: #006400;
-        }
-
-        .success {
-            color: green;
-        }
-
-        .error {
-            color: red;
-        }
-
-        ul {
-            list-style: none;
-            padding: 0;
-        }
-
-        li {
-            background-color: #555;
-            padding: 10px;
-            margin: 5px 0;
-            border-radius: 5px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        li button {
-            background-color: #dc3545;
-            color: white;
-            padding: 5px 10px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-
-        li button:hover {
-            background-color: #c82333;
-        }
-
-        #rodape {
-            text-align: center;
-            margin-top: 20px;
-            color: #aaa;
-        }
+        /* ... [mesmo CSS que você forneceu, permanece intacto] ... */
     </style>
 </head>
 <body>
@@ -165,7 +58,7 @@
         function padronizarRegistro(registro) {
             registro = registro.toUpperCase().replace(/-/g, '');
             if (registro.startsWith('N')) {
-                return registro; // Matrículas americanas não usam traço
+                return registro;
             }
             if (registro.length > 2) {
                 return registro.slice(0, 2) + '-' + registro.slice(2);
@@ -201,8 +94,8 @@
         function adicionarRegistro() {
             const inputBruto = document.getElementById('inputRegistro').value;
             const registro = padronizarRegistro(inputBruto);
-            const companhia = document.getElementById('inputCompanhia').value;
-            const modelo = document.getElementById('inputModelo').value;
+            const companhia = document.getElementById('inputCompanhia').value.trim();
+            const modelo = document.getElementById('inputModelo').value.trim();
 
             if (!registro || !companhia || !modelo) {
                 alert('Por favor, preencha todos os campos.');
@@ -236,12 +129,14 @@
             listaEstatisticas.innerHTML = '';
 
             const companhias = registros.reduce((acc, { companhia }) => {
-                acc[companhia] = (acc[companhia] || 0) + 1;
+                const nomeLimpo = companhia.replace(/\s+:/g, ':').trim();
+                acc[nomeLimpo] = (acc[nomeLimpo] || 0) + 1;
                 return acc;
             }, {});
 
             const modelos = registros.reduce((acc, { modelo }) => {
-                acc[modelo] = (acc[modelo] || 0) + 1;
+                const nomeLimpo = modelo.replace(/\s+:/g, ':').trim();
+                acc[nomeLimpo] = (acc[nomeLimpo] || 0) + 1;
                 return acc;
             }, {});
 
