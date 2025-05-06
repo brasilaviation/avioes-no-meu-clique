@@ -3,9 +3,116 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aviões no Meu Clique</title>
+    <title>aviões no meu clique</title>
     <style>
-        /* ... [mesmo CSS que você forneceu, permanece intacto] ... */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #2D3748;
+            color: #fff;
+            margin: 0;
+            padding: 0;
+        }
+
+        h1, h2 {
+            text-align: center;
+            color: #fff;
+        }
+
+        #menu {
+            background-color: #333;
+            padding: 10px;
+            text-align: center;
+        }
+
+        #menu a {
+            color: white;
+            text-decoration: none;
+            margin: 10px;
+            font-weight: bold;
+            padding: 10px 20px;
+            background-color: #008000;
+            border-radius: 5px;
+        }
+
+        #menu a:hover {
+            background-color: #006400;
+        }
+
+        .container {
+            display: none;
+            margin: 20px auto;
+            background: #3A3F44;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            width: 90%;
+            max-width: 500px;
+        }
+
+        input, button {
+            display: block;
+            width: calc(100% - 20px);
+            margin: 10px auto;
+            padding: 10px;
+            border-radius: 5px;
+            border: none;
+        }
+
+        input {
+            border: 1px solid #ccc;
+        }
+
+        button {
+            background-color: #008000;
+            color: white;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #006400;
+        }
+
+        .success {
+            color: green;
+        }
+
+        .error {
+            color: red;
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        li {
+            background-color: #555;
+            padding: 10px;
+            margin: 5px 0;
+            border-radius: 5px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        li button {
+            background-color: #dc3545;
+            color: white;
+            padding: 5px 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        li button:hover {
+            background-color: #c82333;
+        }
+
+        #rodape {
+            text-align: center;
+            margin-top: 20px;
+            color: #aaa;
+        }
     </style>
 </head>
 <body>
@@ -16,7 +123,7 @@
     </div>
 
     <div id="pesquisa" class="container" style="display: block;">
-        <h1>Buscar Registro de Aeronave</h1>
+        <h1>aviões no meu clique</h1>
         <input type="text" id="inputRegistro" placeholder="Digite o registro (ex: PR-GXP)">
         <button onclick="buscarRegistro()">Buscar</button>
         <p id="mensagem"></p>
