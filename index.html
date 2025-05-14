@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>aviões no meu clique</title>
+    <title>Aviões no meu clique</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -147,7 +147,7 @@
     </div>
 
     <div id="rodape">
-        <p>Todos os direitos reservados à BRASIL AVIATION</p>
+        <p>Use com moderaçâo</p>
     </div>
 
     <script>
@@ -190,10 +190,10 @@
             const registro = registros.find(r => r.registro === input);
 
             if (registro) {
-                mensagem.innerHTML = `<span class="success">Registro encontrado: ${registro.registro}, ${registro.modelo}, ${registro.companhia}.</span>`;
+                mensagem.innerHTML = `<span class="success">Você tem este registro: ${registro.registro}, ${registro.modelo}, ${registro.companhia}.</span>`;
                 formulario.style.display = 'none';
             } else {
-                mensagem.innerHTML = `<span class="error">Registro não encontrado. Adicione abaixo.</span>`;
+                mensagem.innerHTML = `<span class="error">Você não tirou foto deste avião. Adicione abaixo.</span>`;
                 formulario.style.display = 'block';
             }
         }
@@ -211,7 +211,7 @@
 
             registros.push({ registro, companhia, modelo });
             localStorage.setItem('registros', JSON.stringify(registros));
-            alert('Registro salvo com sucesso!');
+            alert('Matrícula salva com sucesso!');
             document.getElementById('mensagem').textContent = '';
             document.getElementById('formularioAdicao').style.display = 'none';
         }
